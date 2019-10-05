@@ -1,0 +1,9 @@
+Direct X Learning 
+
+WinMain Effctivly Replaces the Main() Function
+
+First step is to create a Window, you need to create a Class/function then call instances of that class.
+
+
+Register Window -> Create Window -> Show Window
+
