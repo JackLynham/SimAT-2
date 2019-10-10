@@ -16,9 +16,6 @@
     <Filter Include="Shaders">
       <UniqueIdentifier>{4cbf9f9d-6389-4e19-bf4e-bb8f96e00b3b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Dxerr">
-      <UniqueIdentifier>{18a284fe-1176-44ce-adda-9b05007b9101}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="WinMain.cpp">
@@ -56,9 +53,6 @@
     <ClInclude Include="Win.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="resource.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Keyboard.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -80,9 +74,6 @@
     <ClInclude Include="DxgiInfoManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="dxerr.h">
-      <Filter>Dxerr</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Project At.rc">
@@ -93,24 +84,5 @@
     <Image Include="Uwe Logo.png">
       <Filter>Resource Files</Filter>
     </Image>
-  </ItemGroup>
-  <ItemGroup>
-    <FxCompile Include="PixelShader.hlsl">
-      <Filter>Shaders</Filter>
-    </FxCompile>
-    <FxCompile Include="VertexShader.hlsl">
-      <Filter>Shaders</Filter>
-    </FxCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="DXGetErrorDescription.inl">
-      <Filter>Dxerr</Filter>
-    </None>
-    <None Include="DXGetErrorString.inl">
-      <Filter>Dxerr</Filter>
-    </None>
-    <None Include="dxerr.cpp">
-      <Filter>Dxerr</Filter>
-    </None>
   </ItemGroup>
 </Project>
