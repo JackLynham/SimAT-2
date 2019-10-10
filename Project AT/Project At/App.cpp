@@ -21,8 +21,8 @@ int App::Go()
 
 void App::DoFrame()
 {
-	//const float c = sin(timer.Peek()) / 2.0f + 0.5f; // Time Dependant Sin Wave,  
-	wnd.Gfx().ClearBuffer(0, 0, 0.);  //Ranges from White to blue ( R,  G, B);
-	wnd.Gfx().DrawTestTriangle();
+	const float c = sin(timer.Peek()) / 2.0f + 0.5f; // Time Dependant Sin Wave,  
+	wnd.Gfx().ClearBuffer(c, c, 1.0F);  //Ranges from White to blue ( R,  G, B);
+	wnd.Gfx().DrawTestTriangle(timer.Peek());
 	wnd.Gfx().EndFrame();
 }
