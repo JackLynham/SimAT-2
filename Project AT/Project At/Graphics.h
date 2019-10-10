@@ -14,7 +14,7 @@ public:
 	~Graphics() = default;
 	void EndFrame();
 	void ClearBuffer(float red, float green, float blue) noexcept;
-	void DrawTestTriangle(float angle);			//	(How many vertices, Where to start) 
+	void DrawTestTriangle(float angle, float x, float y);			//	(How many vertices, Where to start) 
 
 private:
 	Microsoft::WRL::ComPtr<ID3D11Device> pDevice; //Used for allocating Afectivly Create
