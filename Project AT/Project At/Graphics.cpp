@@ -48,14 +48,47 @@ Graphics::Graphics(HWND hWnd)
 		nullptr,
 		&pContext
 	);
+
 	// gain access to texture subresource in swap chain (back buffer)
 	wrl::ComPtr<ID3D11Resource> pBackBuffer;
 	(pSwap->GetBuffer(0, __uuidof(ID3D11Resource), &pBackBuffer));   //Comptr Are a type of unique pointers.
 	(pDevice->CreateRenderTargetView(pBackBuffer.Get(), nullptr, &pTarget));
-	pBackBuffer->Release();
+
+	//creating depth Buffer Holds depth Values 
+	D3D11_DEPTH_STENCIL_DESC dsDesc = {};
+	dsDesc.DepthEnable = TRUE;
+	dsDesc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ALL;
+	dsDesc.DepthFunc = D3D11_COMPARISON_LESS;
+	wrl::ComPtr<ID3D11DepthStencilState> pDSState;
+	pDevice->CreateDepthStencilState(&dsDesc, &pDSState);
+
+	//create Depth buffer
+
+	wrl::ComPtr<ID3D11Texture2D> pDepthStencil;
+	D3D11_TEXTURE2D_DESC descDepth = {};
+	descDepth.Width = 800u;
+	descDepth.Height = 600u;
+	descDepth.MipLevels = 1u;
+	descDepth.ArraySize = 1u;
+	descDepth.Format = DXGI_FORMAT_D32_FLOAT;
+	descDepth.SampleDesc.Count = 1u;
+	descDepth.SampleDesc.Quality = 0u;
+	descDepth.Usage = D3D11_USAGE_DEFAULT;
+	descDepth.BindFlags = D3D11_BIND_DEPTH_STENCIL;
+	pDevice->CreateTexture2D(&descDepth, nullptr, &pDepthStencil);
+
+
+	//Create vie of Depth stencil texture
+
+	D3D11_DEPTH_STENCIL_VIEW_DESC descDSV = {};
+	descDSV.Format = DXGI_FORMAT_D32_FLOAT;
+	descDSV.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2D;
+	descDSV.Texture2D.MipSlice = 0U;
+	pDevice->CreateDepthStencilView(pDepthStencil.Get(), &descDSV, &pDSV);
+
+	//bind depth stencil
+	pContext->OMSetRenderTargets(1u, pTarget.GetAddressOf(), pDSV.Get());
 }
-
-
 
 void Graphics::EndFrame()
 {
@@ -66,9 +99,10 @@ void Graphics::ClearBuffer(float red, float green, float blue) noexcept
 {
 	const float color[] = { red,green,blue,1.0f };
 	pContext->ClearRenderTargetView(pTarget.Get (),color);
+	pContext->ClearDepthStencilView(pDSV.Get(), D3D11_CLEAR_DEPTH, 1.0f, 0u);
 }
 
-void Graphics::Draw(float angle, float x, float y)
+void Graphics::Draw(float angle, float x, float z)
 {
 	namespace wrl = Microsoft::WRL;
 	HRESULT hr;
@@ -115,7 +149,7 @@ void Graphics::Draw(float angle, float x, float y)
 			dx::XMMatrixTranspose(
 				dx::XMMatrixRotationZ(angle)* 
 				dx::XMMatrixRotationX(angle)*// Using DX Maths
-				dx::XMMatrixTranslation(x,y,6.0f)* //Third Value is where the obj starts at;
+				dx::XMMatrixTranslation(x,0.0f,z +4.0f)* //Third Value is where the obj starts at;
 				dx::XMMatrixPerspectiveFovLH( 1.0f, 3.0f/4.0f, 0.5f,10.0f) // ( yout Perspective, the ratio
 																			// of the screen val/val, how close 
 																			//things can be till you cull it and 
