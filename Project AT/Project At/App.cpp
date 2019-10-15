@@ -25,7 +25,7 @@ void App::DoFrame()
 	//const float c = sin(timer.Peek()) / 2.0f + 0.5f; // Time Dependant Sin Wave,  
 	wnd.Gfx().ClearBuffer(0, 0, 0.0F);  //Ranges from White to blue ( R,  G, B);
 
-	wnd.Gfx().Draw(-timer.Peek(), 0.0f, 1.0f); 
+	wnd.Gfx().Draw(timer.Peek(), 0.0f, 0.0f); 
 
 	wnd.Gfx().Draw(timer.Peek(),
 		wnd.mouse.GetPosX() / 400.0f - 1.0f,  //Used to make the range -1 to 1
