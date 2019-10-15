@@ -1,6 +1,7 @@
 #include "Win.h"
 #include "Mouse.h"
 
+/* Class Desc Affectivly Boilerplate Code that returns all diffrent Values to do with the mouse Very Helpful */
 std::pair<int, int> Mouse::GetPos() const noexcept
 {
 	return { x,y };

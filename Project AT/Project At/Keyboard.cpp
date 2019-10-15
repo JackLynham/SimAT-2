@@ -1,5 +1,7 @@
 #include "Keyboard.h"
 
+/* Affectibly Boilerplate Code to Do with They Keyboard returns its values.*/
+
 bool Keyboard::KeyIsPressed(unsigned char keycode) const noexcept
 {
 	return keystates[keycode];

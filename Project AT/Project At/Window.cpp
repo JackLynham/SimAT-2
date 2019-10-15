@@ -2,7 +2,9 @@
 #include <sstream>
 //#include "resource.h"
 
-
+/*Class Des This class is Effectibly Boilerplate Code for setting up the window, Firt it init the window eith all its settings 
+then we calculate the window size . Then create the window and start handling messages Includeing Mouse and Keyboard Input
+This class is kind of the center as it has acess to a large amount of classes Graphics keyboard mouse Exeption Etc*/
 // Window Class Stuff
 Window::WindowClass Window::WindowClass::wndClass;
 

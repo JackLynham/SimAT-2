@@ -10,7 +10,10 @@ namespace wrl = Microsoft::WRL;
 #pragma comment (lib, "D3DCompiler.lib")
 namespace dx = DirectX;
 
-
+/* Class Desc, This class is a super complex class and will probs be broken down in future, it handles all the graphics within our game
+First we Init and create the swap chain this is likely not to change much|| We use alot of Com_ptrs here its basicaly another type of smart
+pointer which releases and object before delting it.|| Then we get down to Draw  So after our declerations we create two structs to handle one for 
+postions and one for Color we get all our vertices */
 Graphics::Graphics(HWND hWnd)
 {
 	DXGI_SWAP_CHAIN_DESC sd = {};
@@ -65,64 +68,13 @@ void Graphics::ClearBuffer(float red, float green, float blue) noexcept
 	pContext->ClearRenderTargetView(pTarget.Get (),color);
 }
 
-void Graphics::DrawTestTriangle(float angle, float x, float y)
+void Graphics::Draw(float angle, float x, float y)
 {
 	namespace wrl = Microsoft::WRL;
 	HRESULT hr;
 
-	struct Vertex
-	{
-		struct
-		{
-		float x;
-		float y;
-		float z;
 
-		} pos ; // This sruct Handles Postions 
-		
-		struct
-		{
-			unsigned char r;
-			unsigned char g;
-			unsigned char b;
-			unsigned char a;
-		}color ;
-		
-	};
-
-	//Defining Postion plus RGBA Values 
-	 Vertex vertices[] =
-	{
-		 
-		{ -1.0f,-1.0f,-1.0f, 0, 0, 255},
-		{ 1.0f,-1.0f,-1.0f , 0, 0, 255},
-		{ -1.0f,1.0f,-1.0f, 255, 0, 0},
-		{ 1.0f,1.0f,-1.0f, 255, 0, 0},
-		{ -1.0f,-1.0f,1.0f, 0, 255, 0},
-		{ 1.0f,-1.0f,1.0f ,0, 255, 0},
-		{ -1.0f,1.0f,1.0f, 0, 0, 0},
-		{ 1.0f,1.0f,1.0f, 255, 255, 255},
-		
-	};
-
-	/*vertices[0].color.r = 255; */  //Allows me to acess stuff in side the struct above
-
-	wrl::ComPtr<ID3D11Buffer> pVertexBuffer;
-	D3D11_BUFFER_DESC bd = {};
-	bd.BindFlags = D3D11_BIND_VERTEX_BUFFER;
-	bd.Usage = D3D11_USAGE_DEFAULT;
-	bd.CPUAccessFlags = 0u;
-	bd.MiscFlags = 0u;
-	bd.ByteWidth = sizeof(vertices);
-	bd.StructureByteStride = sizeof(Vertex);
-	D3D11_SUBRESOURCE_DATA sd = {};
-	sd.pSysMem = vertices;
-	pDevice->CreateBuffer(&bd, &sd, &pVertexBuffer);
-
-	// Bind vertex buffer to pipeline
-	const UINT stride = sizeof(Vertex);
-	const UINT offset = 0u;
-	pContext->IASetVertexBuffers(0u, 1u, pVertexBuffer.GetAddressOf(), &stride, &offset);
+	VertexBuffer();
 
 	const unsigned short indices[] =
 	{
@@ -163,7 +115,7 @@ void Graphics::DrawTestTriangle(float angle, float x, float y)
 			dx::XMMatrixTranspose(
 				dx::XMMatrixRotationZ(angle)* 
 				dx::XMMatrixRotationX(angle)*// Using DX Maths
-				dx::XMMatrixTranslation(x,y,4.0f)* //Third Value is where the obj starts at;
+				dx::XMMatrixTranslation(x,y,6.0f)* //Third Value is where the obj starts at;
 				dx::XMMatrixPerspectiveFovLH( 1.0f, 3.0f/4.0f, 0.5f,10.0f) // ( yout Perspective, the ratio
 																			// of the screen val/val, how close 
 																			//things can be till you cull it and 
@@ -187,6 +139,47 @@ void Graphics::DrawTestTriangle(float angle, float x, float y)
 	// bind constant buffer to vertex shader
 	pContext->VSSetConstantBuffers(0u, 1u, pConstantBuffer.GetAddressOf());
 
+
+	struct ConstantBuffer2
+	{
+		struct
+		{
+			float r;
+			float g;
+			float b;
+			float a;
+		} face_colors[6]; //There a 6 faces on a cube
+
+	};
+
+	const ConstantBuffer2 cb2 =
+	{ // 6 values because there a 6 faces on a Cube
+		{
+			{1.0f, 0.0f,1.0f},
+			{1.0f, 0.0f,0.0f},
+			{0.0f, 1.0f,0.0f},
+			{0.0f, 0.0f,1.0f},
+			{1.0f, 1.0f,0.0f},
+			{0.0f, 1.0f,1.0f},
+
+		}
+	};
+
+	wrl::ComPtr<ID3D11Buffer> pConstantBuffer2;
+	D3D11_BUFFER_DESC cbd2;
+	cbd2.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
+	cbd2.Usage = D3D11_USAGE_DYNAMIC;
+	cbd2.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
+	cbd2.MiscFlags = 0u;
+	cbd2.ByteWidth = sizeof(cb2);
+	cbd2.StructureByteStride = 0u;
+	D3D11_SUBRESOURCE_DATA csd2 = {};
+	csd2.pSysMem = &cb2;
+	pDevice->CreateBuffer(&cbd2, &csd2, &pConstantBuffer2);
+
+	//Binding CB2 To pixel Shader
+
+	pContext->PSSetConstantBuffers(0u, 1u, pConstantBuffer2.GetAddressOf());
 
 	// create pixel shader
 	wrl::ComPtr<ID3D11PixelShader> pPixelShader;
@@ -212,7 +205,7 @@ void Graphics::DrawTestTriangle(float angle, float x, float y)
 	const D3D11_INPUT_ELEMENT_DESC ied[] =
 	{
 		{ "Position",0,DXGI_FORMAT_R32G32B32_FLOAT,0,0,D3D11_INPUT_PER_VERTEX_DATA,0 },
-		{ "Color",0,DXGI_FORMAT_R8G8B8A8_UNORM,0,12u,D3D11_INPUT_PER_VERTEX_DATA,0 },
+		
 	};
 		pDevice->CreateInputLayout(
 		ied, (UINT)std::size(ied),
@@ -246,4 +239,53 @@ void Graphics::DrawTestTriangle(float angle, float x, float y)
 
 	pContext->DrawIndexed( (UINT) std::size(indices), 0u, 0u);  //This allows us to not repeat ourselves when 
 															// drawing verticies
+}
+
+void Graphics::VertexBuffer()
+{
+
+	struct Vertex
+	{
+		struct
+		{
+			float x;
+			float y;
+			float z;
+
+		} pos; // This sruct Handles Postions 
+
+	};
+	//Defining Postion plus RGBA Values 
+	Vertex vertices[] =
+	{
+
+	{ -1.0f,-1.0f,-1.0f},
+	{ 1.0f,-1.0f,-1.0f },
+	{ -1.0f,1.0f,-1.0f},
+	{ 1.0f,1.0f,-1.0f },
+	{ -1.0f,-1.0f,1.0f},
+	{ 1.0f,-1.0f,1.0f},
+	{ -1.0f,1.0f,1.0f},
+	{ 1.0f,1.0f,1.0f},
+
+	};
+
+
+
+	wrl::ComPtr<ID3D11Buffer> pVertexBuffer;
+	D3D11_BUFFER_DESC bd = {};
+	bd.BindFlags = D3D11_BIND_VERTEX_BUFFER;
+	bd.Usage = D3D11_USAGE_DEFAULT;
+	bd.CPUAccessFlags = 0u;
+	bd.MiscFlags = 0u;
+	bd.ByteWidth = sizeof(vertices);
+	bd.StructureByteStride = sizeof(Vertex);
+	D3D11_SUBRESOURCE_DATA sd = {};
+	sd.pSysMem = vertices;
+	pDevice->CreateBuffer(&bd, &sd, &pVertexBuffer);
+
+	// Bind vertex buffer to pipeline
+	const UINT stride = sizeof(Vertex);
+	const UINT offset = 0u;
+	pContext->IASetVertexBuffers(0u, 1u, pVertexBuffer.GetAddressOf(), &stride, &offset);
 }

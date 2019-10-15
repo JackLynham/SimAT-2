@@ -1,6 +1,6 @@
 
 #include "App.h"
-
+/* Class Desc For later Me. This Class is just the entry point and its main fucntion is to call App, and handle some error handling*/
 
 int CALLBACK WinMain(
 	HINSTANCE hInstance,
