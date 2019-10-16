@@ -6,6 +6,7 @@ IndexBuffer::IndexBuffer(Graphics& gfx, const std::vector<unsigned short>& indic
 	count((UINT)indices.size())
 {
 
+
 	D3D11_BUFFER_DESC ibd = {};
 	ibd.BindFlags = D3D11_BIND_INDEX_BUFFER;
 	ibd.Usage = D3D11_USAGE_DEFAULT;
@@ -15,8 +16,7 @@ IndexBuffer::IndexBuffer(Graphics& gfx, const std::vector<unsigned short>& indic
 	ibd.StructureByteStride = sizeof(unsigned short);
 	D3D11_SUBRESOURCE_DATA isd = {};
 	isd.pSysMem = indices.data();
-	GetDevice(gfx)->CreateBuffer(&ibd, &isd, &pIndexBuffer);  //Storing our Data in Index buffer
-
+	GetDevice(gfx)->CreateBuffer(&ibd, &isd, &pIndexBuffer);
 }
 
 void IndexBuffer::Bind(Graphics& gfx) noexcept

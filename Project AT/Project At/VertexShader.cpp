@@ -4,9 +4,10 @@
 
 VertexShader::VertexShader(Graphics& gfx, const std::wstring& path)
 {
+	
 
 	D3DReadFileToBlob(path.c_str(), &pBytecodeBlob);
-	GetDevice(gfx)->CreateVertexShader(
+		GetDevice(gfx)->CreateVertexShader(
 		pBytecodeBlob->GetBufferPointer(),
 		pBytecodeBlob->GetBufferSize(),
 		nullptr,

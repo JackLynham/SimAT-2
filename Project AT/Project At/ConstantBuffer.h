@@ -8,14 +8,15 @@ class ConstantBuffer : public Bindable
 public:
 	void Update(Graphics& gfx, const C& consts)
 	{
+		
 
 		D3D11_MAPPED_SUBRESOURCE msr;
 		GetContext(gfx)->Map(
-			pConstantBuffer.Get(), 0u,   //Lock it and get a pointer to its memory
+			pConstantBuffer.Get(), 0u,
 			D3D11_MAP_WRITE_DISCARD, 0u,
 			&msr
 		);
-		memcpy(msr.pData, &consts, sizeof(consts));   //Write into memory
+		memcpy(msr.pData, &consts, sizeof(consts));
 		GetContext(gfx)->Unmap(pConstantBuffer.Get(), 0u);
 	}
 	ConstantBuffer(Graphics& gfx, const C& consts)

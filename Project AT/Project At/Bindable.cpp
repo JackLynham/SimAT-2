@@ -9,3 +9,4 @@ ID3D11Device* Bindable::GetDevice(Graphics& gfx) noexcept
 {
 	return gfx.pDevice.Get();
 }
+
