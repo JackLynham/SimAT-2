@@ -26,5 +26,5 @@ void IndexBuffer::Bind(Graphics& gfx) noexcept
 
 UINT IndexBuffer::GetCount() const noexcept
 {
-	return count;
+	return count;  //This returns num of indieces
 }

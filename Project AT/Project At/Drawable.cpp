@@ -7,9 +7,9 @@ void Drawable::Draw(Graphics& gfx) const noexcept
 {
 	for (auto& b : binds)
 	{
-		b->Bind(gfx);
+		b->Bind(gfx);    //Loop Through all Bindables and bind them
 	}
-	gfx.DrawIndexed(pIndexBuffer->GetCount());
+	gfx.DrawIndexed(pIndexBuffer->GetCount());  //
 }
 
 void Drawable::AddBind(std::unique_ptr<Bindable> bind) noexcept

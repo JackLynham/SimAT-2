@@ -12,7 +12,7 @@ public:
 	void Update(float dt) noexcept override;
 	DirectX::XMMATRIX GetTransformXM() const noexcept override;
 private:
-	// positional
+	// positional   Roatation of the OBJ
 	float r;
 	float roll = 0.0f;
 	float pitch = 0.0f;
@@ -20,7 +20,8 @@ private:
 	float theta;
 	float phi;
 	float chi;
-	// speed (delta/s)
+
+	// speed (delta/s)  //Rotation in Word Space
 	float droll;
 	float dpitch;
 	float dyaw;
