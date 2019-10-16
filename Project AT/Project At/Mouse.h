@@ -1,7 +1,7 @@
 #pragma once
 #include <queue>
 #include <optional>
-
+#include <sstream>
 class Mouse
 {
 	friend class Window;
