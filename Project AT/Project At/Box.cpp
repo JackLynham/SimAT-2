@@ -1,6 +1,7 @@
 #include "Box.h"
 #include "BindableBase.h"
 
+
 Box::Box(Graphics& gfx,
 	std::mt19937& rng,
 	std::uniform_real_distribution<float>& adist,

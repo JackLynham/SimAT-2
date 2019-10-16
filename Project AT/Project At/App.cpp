@@ -1,10 +1,10 @@
 #include "App.h"
 #include "Box.h"
 #include <memory>
-/* Class Desc  Affectbly App Makes it easier to do stuff to window such as change the window Name Etc Hence why it has Acess to windows and used timer to add background*/
+
 App::App()
 	:
-	wnd(800, 600, "My Window")
+	wnd(800, 600, "The Donkey Fart Box")
 {
 	std::mt19937 rng(std::random_device{}());
 	std::uniform_real_distribution<float> adist(0.0f, 3.1415f * 2.0f);
@@ -14,7 +14,9 @@ App::App()
 	for (auto i = 0; i < 80; i++)
 	{
 		boxes.push_back(std::make_unique<Box>(
-			wnd.Gfx(), rng, adist, ddist, odist, rdist ));
+			wnd.Gfx(), rng, adist,
+			ddist, odist, rdist
+			));
 	}
 	wnd.Gfx().SetProjection(DirectX::XMMatrixPerspectiveLH(1.0f, 3.0f / 4.0f, 0.5f, 40.0f));
 }
@@ -34,9 +36,7 @@ int App::Go()
 }
 
 App::~App()
-{
-
-}
+{}
 
 void App::DoFrame()
 {

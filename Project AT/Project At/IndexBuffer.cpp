@@ -15,8 +15,7 @@ IndexBuffer::IndexBuffer(Graphics& gfx, const std::vector<unsigned short>& indic
 	ibd.StructureByteStride = sizeof(unsigned short);
 	D3D11_SUBRESOURCE_DATA isd = {};
 	isd.pSysMem = indices.data();
-	GetDevice(gfx)->CreateBuffer(&ibd, &isd, &pIndexBuffer);  //Storing our Data in Index buffer
-
+	GetDevice(gfx)->CreateBuffer(&ibd, &isd, &pIndexBuffer);
 }
 
 void IndexBuffer::Bind(Graphics& gfx) noexcept
@@ -26,5 +25,5 @@ void IndexBuffer::Bind(Graphics& gfx) noexcept
 
 UINT IndexBuffer::GetCount() const noexcept
 {
-	return count;  //This returns num of indieces
+	return count;
 }
