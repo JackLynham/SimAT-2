@@ -41,7 +41,6 @@ Graphics::Graphics(HWND hWnd)
 	HRESULT hr;
 
 	// create device and front/back buffers, and swap chain and rendering context
-	//GFX_THROW_INFO
 	(D3D11CreateDeviceAndSwapChain(
 		nullptr,
 		D3D_DRIVER_TYPE_HARDWARE,
@@ -59,9 +58,7 @@ Graphics::Graphics(HWND hWnd)
 
 	// gain access to texture subresource in swap chain (back buffer)
 	wrl::ComPtr<ID3D11Resource> pBackBuffer;
-	//GFX_THROW_INFO
 	(pSwap->GetBuffer(0, __uuidof(ID3D11Resource), &pBackBuffer));
-	//GFX_THROW_INFO
 	(pDevice->CreateRenderTargetView(pBackBuffer.Get(), nullptr, &pTarget));
 
 	// create depth stensil state
@@ -70,7 +67,6 @@ Graphics::Graphics(HWND hWnd)
 	dsDesc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ALL;
 	dsDesc.DepthFunc = D3D11_COMPARISON_LESS;
 	wrl::ComPtr<ID3D11DepthStencilState> pDSState;
-	//GFX_THROW_INFO
 	(pDevice->CreateDepthStencilState(&dsDesc, &pDSState));
 
 	// bind depth state
@@ -88,7 +84,6 @@ Graphics::Graphics(HWND hWnd)
 	descDepth.SampleDesc.Quality = 0u;
 	descDepth.Usage = D3D11_USAGE_DEFAULT;
 	descDepth.BindFlags = D3D11_BIND_DEPTH_STENCIL;
-	//GFX_THROW_INFO
 	(pDevice->CreateTexture2D(&descDepth, nullptr, &pDepthStencil));
 
 	// create view of depth stensil texture
@@ -96,7 +91,6 @@ Graphics::Graphics(HWND hWnd)
 	descDSV.Format = DXGI_FORMAT_D32_FLOAT;
 	descDSV.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2D;
 	descDSV.Texture2D.MipSlice = 0u;
-	//GFX_THROW_INFO
 	(pDevice->CreateDepthStencilView(
 		pDepthStencil.Get(), &descDSV, &pDSV
 	));
@@ -117,12 +111,12 @@ Graphics::Graphics(HWND hWnd)
 
 void Graphics::EndFrame()
 {
-	
 	HRESULT hr;
 #ifndef NDEBUG
 	infoManager.Set();
 #endif
 	pSwap->Present(1u, 0u);
+	
 	
 }
 
@@ -133,7 +127,7 @@ void Graphics::ClearBuffer(float red, float green, float blue) noexcept
 	pContext->ClearDepthStencilView(pDSV.Get(), D3D11_CLEAR_DEPTH, 1.0f, 0u);
 }
 
-void Graphics::DrawIndexed(UINT count) noexcept 
+void Graphics::DrawIndexed(UINT count) noexcept //(!IS_DEBUG)
 {
 	GFX_THROW_INFO_ONLY(pContext->DrawIndexed(count, 0u, 0u));
 }

@@ -7,7 +7,6 @@ InputLayout::InputLayout(Graphics& gfx,
 {
 	INFOMAN(gfx);
 
-	//GFX_THROW_INFO
 	(GetDevice(gfx)->CreateInputLayout(
 		layout.data(), (UINT)layout.size(),
 		pVertexShaderBytecode->GetBufferPointer(),
