@@ -129,7 +129,7 @@
       <ConformanceMode>true</ConformanceMode>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
-      <PreprocessorDefinitions>_MBCS;%(PreprocessorDefinitions)NDEBUG</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG_MBCS;%(PreprocessorDefinitions)IS_DEBUG=false</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <FloatingPointModel>Fast</FloatingPointModel>
       <LanguageStandard>stdcpplatest</LanguageStandard>
@@ -148,13 +148,14 @@
     <ClCompile Include="ChiliException.cpp" />
     <ClCompile Include="ConstantBuffer.cpp" />
     <ClCompile Include="Drawable.cpp" />
+    <ClCompile Include="DrawableBase.cpp" />
     <ClCompile Include="DxgiInfoManager.cpp" />
     <ClCompile Include="Graphics.cpp" />
     <ClCompile Include="IndexBuffer.cpp" />
     <ClCompile Include="InputLayout.cpp" />
     <ClCompile Include="Keyboard.cpp" />
     <ClCompile Include="Mouse.cpp" />
-    <ClCompile Include="ChiliTimer.cpp" />
+    <ClCompile Include="Timer.cpp" />
     <ClCompile Include="PixelShader.cpp" />
     <ClCompile Include="Topology.cpp" />
     <ClCompile Include="TransformCbuf.cpp" />
@@ -171,6 +172,7 @@
     <ClInclude Include="ChiliException.h" />
     <ClInclude Include="ConstantBuffer.h" />
     <ClInclude Include="Drawable.h" />
+    <ClInclude Include="DrawableBase.h" />
     <ClInclude Include="DxgiInfoManager.h" />
     <ClInclude Include="Graphics.h" />
     <ClInclude Include="GraphicsThrowMacros.h" />
@@ -178,7 +180,7 @@
     <ClInclude Include="InputLayout.h" />
     <ClInclude Include="Keyboard.h" />
     <ClInclude Include="Mouse.h" />
-    <ClInclude Include="ChiliTimer.h" />
+    <ClInclude Include="Timer.h" />
     <ClInclude Include="PixelShader.h" />
     <ClInclude Include="Topology.h" />
     <ClInclude Include="TransformCbuf.h" />

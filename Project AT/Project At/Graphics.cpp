@@ -117,21 +117,13 @@ Graphics::Graphics(HWND hWnd)
 
 void Graphics::EndFrame()
 {
+	
 	HRESULT hr;
 #ifndef NDEBUG
 	infoManager.Set();
 #endif
 	pSwap->Present(1u, 0u);
-	//{
-	//	if( hr == DXGI_ERROR_DEVICE_REMOVED )
-	//	{
-	//		throw GFX_DEVICE_REMOVED_EXCEPT( pDevice->GetDeviceRemovedReason() );
-	//	}
-	//	else
-	//	{
-	//		throw GFX_EXCEPT( hr );
-	//	}
-	//}
+	
 }
 
 void Graphics::ClearBuffer(float red, float green, float blue) noexcept
@@ -141,7 +133,7 @@ void Graphics::ClearBuffer(float red, float green, float blue) noexcept
 	pContext->ClearDepthStencilView(pDSV.Get(), D3D11_CLEAR_DEPTH, 1.0f, 0u);
 }
 
-void Graphics::DrawIndexed(UINT count) noexcept //(!IS_DEBUG)
+void Graphics::DrawIndexed(UINT count) noexcept 
 {
 	GFX_THROW_INFO_ONLY(pContext->DrawIndexed(count, 0u, 0u));
 }
@@ -157,74 +149,6 @@ DirectX::XMMATRIX Graphics::GetProjection() const noexcept
 }
 
 
-//// Graphics exception stuff
-//Graphics::HrException::HrException( int line,const char * file,HRESULT hr,std::vector<std::string> infoMsgs ) noexcept
-//	:
-//	Exception( line,file ),
-//	hr( hr )
-//{
-//	// join all info messages with newlines into single string
-//	for( const auto& m : infoMsgs )
-//	{
-//		info += m;
-//		info.push_back( '\n' );
-//	}
-//	// remove final newline if exists
-//	if( !info.empty() )
-//	{
-//		info.pop_back();
-//	}
-//}
-//
-//const char* Graphics::HrException::what() const noexcept
-//{
-//	std::ostringstream oss;
-//	oss << GetType() << std::endl
-//		<< "[Error Code] 0x" << std::hex << std::uppercase << GetErrorCode()
-//		<< std::dec << " (" << (unsigned long)GetErrorCode() << ")" << std::endl
-//		<< "[Error String] " << GetErrorString() << std::endl
-//		<< "[Description] " << GetErrorDescription() << std::endl;
-//	if( !info.empty() )
-//	{
-//		oss << "\n[Error Info]\n" << GetErrorInfo() << std::endl << std::endl;
-//	}
-//	oss << GetOriginString();
-//	whatBuffer = oss.str();
-//	return whatBuffer.c_str();
-//}
-//
-//const char* Graphics::HrException::GetType() const noexcept
-//{
-//	return "Chili Graphics Exception";
-//}
-//
-//HRESULT Graphics::HrException::GetErrorCode() const noexcept
-//{
-//	return hr;
-//}
-//
-//std::string Graphics::HrException::GetErrorString() const noexcept
-//{
-//	return DXGetErrorString( hr );
-//}
-//
-//std::string Graphics::HrException::GetErrorDescription() const noexcept
-//{
-//	char buf[512];
-//	DXGetErrorDescription( hr,buf,sizeof( buf ) );
-//	return buf;
-//}
-//
-//std::string Graphics::HrException::GetErrorInfo() const noexcept
-//{
-//	return info;
-//}
-
-
-//const char* Graphics::DeviceRemovedException::GetType() const noexcept
-//{
-//	return "Chili Graphics Exception [Device Removed] (DXGI_ERROR_DEVICE_REMOVED)";
-//}
 Graphics::InfoException::InfoException(int line, const char* file, std::vector<std::string> infoMsgs) noexcept
 	:
 	Exception(line, file)

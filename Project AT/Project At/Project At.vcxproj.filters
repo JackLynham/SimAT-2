@@ -54,9 +54,6 @@
     <ClCompile Include="ChiliException.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ChiliTimer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Bindable.cpp">
       <Filter>Source Files\Bindable</Filter>
     </ClCompile>
@@ -96,6 +93,12 @@
     <ClCompile Include="DxgiInfoManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Timer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DrawableBase.cpp">
+      <Filter>Source Files\Drawable</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Window.h">
@@ -117,9 +120,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ChiliException.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ChiliTimer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Bindable.h">
@@ -166,6 +166,12 @@
     </ClInclude>
     <ClInclude Include="WindowThrowMacros.h">
       <Filter>Header Files\Macros</Filter>
+    </ClInclude>
+    <ClInclude Include="Timer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DrawableBase.h">
+      <Filter>Header Files\Drawable</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

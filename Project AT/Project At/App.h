@@ -1,6 +1,6 @@
 #pragma once
 #include "Window.h"
-#include "ChiliTimer.h"
+#include "Timer.h"
 
 class App
 {
@@ -13,6 +13,6 @@ private:
 	void DoFrame();
 private:
 	Window wnd;
-	ChiliTimer timer;
+	Timer timer;
 	std::vector<std::unique_ptr<class Box>> boxes;
 };
