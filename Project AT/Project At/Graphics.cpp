@@ -4,7 +4,7 @@
 #include <d3dcompiler.h>
 #include <cmath>
 #include <DirectXMath.h>
-
+#include "GraphicsThrowMacros.h"
 
 namespace wrl = Microsoft::WRL;
 namespace dx = DirectX;
@@ -41,6 +41,7 @@ Graphics::Graphics(HWND hWnd)
 	HRESULT hr;
 
 	// create device and front/back buffers, and swap chain and rendering context
+	//GFX_THROW_INFO
 	(D3D11CreateDeviceAndSwapChain(
 		nullptr,
 		D3D_DRIVER_TYPE_HARDWARE,
@@ -58,8 +59,10 @@ Graphics::Graphics(HWND hWnd)
 
 	// gain access to texture subresource in swap chain (back buffer)
 	wrl::ComPtr<ID3D11Resource> pBackBuffer;
-	pSwap->GetBuffer(0, __uuidof(ID3D11Resource), &pBackBuffer);
-	pDevice->CreateRenderTargetView(pBackBuffer.Get(), nullptr, &pTarget);
+	//GFX_THROW_INFO
+	(pSwap->GetBuffer(0, __uuidof(ID3D11Resource), &pBackBuffer));
+	//GFX_THROW_INFO
+	(pDevice->CreateRenderTargetView(pBackBuffer.Get(), nullptr, &pTarget));
 
 	// create depth stensil state
 	D3D11_DEPTH_STENCIL_DESC dsDesc = {};
@@ -67,7 +70,8 @@ Graphics::Graphics(HWND hWnd)
 	dsDesc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ALL;
 	dsDesc.DepthFunc = D3D11_COMPARISON_LESS;
 	wrl::ComPtr<ID3D11DepthStencilState> pDSState;
-	pDevice->CreateDepthStencilState(&dsDesc, &pDSState);
+	//GFX_THROW_INFO
+	(pDevice->CreateDepthStencilState(&dsDesc, &pDSState));
 
 	// bind depth state
 	pContext->OMSetDepthStencilState(pDSState.Get(), 1u);
@@ -84,16 +88,18 @@ Graphics::Graphics(HWND hWnd)
 	descDepth.SampleDesc.Quality = 0u;
 	descDepth.Usage = D3D11_USAGE_DEFAULT;
 	descDepth.BindFlags = D3D11_BIND_DEPTH_STENCIL;
-	pDevice->CreateTexture2D(&descDepth, nullptr, &pDepthStencil);
+	//GFX_THROW_INFO
+	(pDevice->CreateTexture2D(&descDepth, nullptr, &pDepthStencil));
 
 	// create view of depth stensil texture
 	D3D11_DEPTH_STENCIL_VIEW_DESC descDSV = {};
 	descDSV.Format = DXGI_FORMAT_D32_FLOAT;
 	descDSV.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2D;
 	descDSV.Texture2D.MipSlice = 0u;
-	pDevice->CreateDepthStencilView(
+	//GFX_THROW_INFO
+	(pDevice->CreateDepthStencilView(
 		pDepthStencil.Get(), &descDSV, &pDSV
-	);
+	));
 
 	// bind depth stensil view to OM
 	pContext->OMSetRenderTargets(1u, pTarget.GetAddressOf(), pDSV.Get());
@@ -111,7 +117,21 @@ Graphics::Graphics(HWND hWnd)
 
 void Graphics::EndFrame()
 {
-
+	HRESULT hr;
+#ifndef NDEBUG
+	infoManager.Set();
+#endif
+	pSwap->Present(1u, 0u);
+	//{
+	//	if( hr == DXGI_ERROR_DEVICE_REMOVED )
+	//	{
+	//		throw GFX_DEVICE_REMOVED_EXCEPT( pDevice->GetDeviceRemovedReason() );
+	//	}
+	//	else
+	//	{
+	//		throw GFX_EXCEPT( hr );
+	//	}
+	//}
 }
 
 void Graphics::ClearBuffer(float red, float green, float blue) noexcept
@@ -121,9 +141,9 @@ void Graphics::ClearBuffer(float red, float green, float blue) noexcept
 	pContext->ClearDepthStencilView(pDSV.Get(), D3D11_CLEAR_DEPTH, 1.0f, 0u);
 }
 
-void Graphics::DrawIndexed(UINT count) noexcept
+void Graphics::DrawIndexed(UINT count) noexcept //(!IS_DEBUG)
 {
-	pContext->DrawIndexed(count, 0u, 0u);
+	GFX_THROW_INFO_ONLY(pContext->DrawIndexed(count, 0u, 0u));
 }
 
 void Graphics::SetProjection(DirectX::FXMMATRIX proj) noexcept
@@ -136,3 +156,109 @@ DirectX::XMMATRIX Graphics::GetProjection() const noexcept
 	return projection;
 }
 
+
+//// Graphics exception stuff
+//Graphics::HrException::HrException( int line,const char * file,HRESULT hr,std::vector<std::string> infoMsgs ) noexcept
+//	:
+//	Exception( line,file ),
+//	hr( hr )
+//{
+//	// join all info messages with newlines into single string
+//	for( const auto& m : infoMsgs )
+//	{
+//		info += m;
+//		info.push_back( '\n' );
+//	}
+//	// remove final newline if exists
+//	if( !info.empty() )
+//	{
+//		info.pop_back();
+//	}
+//}
+//
+//const char* Graphics::HrException::what() const noexcept
+//{
+//	std::ostringstream oss;
+//	oss << GetType() << std::endl
+//		<< "[Error Code] 0x" << std::hex << std::uppercase << GetErrorCode()
+//		<< std::dec << " (" << (unsigned long)GetErrorCode() << ")" << std::endl
+//		<< "[Error String] " << GetErrorString() << std::endl
+//		<< "[Description] " << GetErrorDescription() << std::endl;
+//	if( !info.empty() )
+//	{
+//		oss << "\n[Error Info]\n" << GetErrorInfo() << std::endl << std::endl;
+//	}
+//	oss << GetOriginString();
+//	whatBuffer = oss.str();
+//	return whatBuffer.c_str();
+//}
+//
+//const char* Graphics::HrException::GetType() const noexcept
+//{
+//	return "Chili Graphics Exception";
+//}
+//
+//HRESULT Graphics::HrException::GetErrorCode() const noexcept
+//{
+//	return hr;
+//}
+//
+//std::string Graphics::HrException::GetErrorString() const noexcept
+//{
+//	return DXGetErrorString( hr );
+//}
+//
+//std::string Graphics::HrException::GetErrorDescription() const noexcept
+//{
+//	char buf[512];
+//	DXGetErrorDescription( hr,buf,sizeof( buf ) );
+//	return buf;
+//}
+//
+//std::string Graphics::HrException::GetErrorInfo() const noexcept
+//{
+//	return info;
+//}
+
+
+//const char* Graphics::DeviceRemovedException::GetType() const noexcept
+//{
+//	return "Chili Graphics Exception [Device Removed] (DXGI_ERROR_DEVICE_REMOVED)";
+//}
+Graphics::InfoException::InfoException(int line, const char* file, std::vector<std::string> infoMsgs) noexcept
+	:
+	Exception(line, file)
+{
+	// join all info messages with newlines into single string
+	for (const auto& m : infoMsgs)
+	{
+		info += m;
+		info.push_back('\n');
+	}
+	// remove final newline if exists
+	if (!info.empty())
+	{
+		info.pop_back();
+	}
+}
+
+
+const char* Graphics::InfoException::what() const noexcept
+{
+	std::ostringstream oss;
+	oss << GetType() << std::endl
+		<< "\n[Error Info]\n" << GetErrorInfo() << std::endl << std::endl;
+	oss << GetOriginString();
+	whatBuffer = oss.str();
+	return whatBuffer.c_str();
+}
+
+const char* Graphics::InfoException::GetType() const noexcept
+{
+	return "Chili Graphics Info Exception";
+}
+
+std::string Graphics::InfoException::GetErrorInfo() const noexcept
+{
+	return info;
+}

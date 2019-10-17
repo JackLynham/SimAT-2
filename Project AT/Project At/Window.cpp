@@ -1,10 +1,13 @@
 #include "Window.h"
 #include <sstream>
-//#include "resource.h"
-
+#include "WindowThrowMacros.h"
 /*Class Des This class is Effectibly Boilerplate Code for setting up the window, Firt it init the window eith all its settings 
 then we calculate the window size . Then create the window and start handling messages Includeing Mouse and Keyboard Input
 This class is kind of the center as it has acess to a large amount of classes Graphics keyboard mouse Exeption Etc*/
+// Window Class Stuff
+
+
+
 // Window Class Stuff
 Window::WindowClass Window::WindowClass::wndClass;
 
@@ -19,12 +22,18 @@ Window::WindowClass::WindowClass() noexcept
 	wc.cbClsExtra = 0;
 	wc.cbWndExtra = 0;
 	wc.hInstance = GetInstance();
-	wc.hIcon = nullptr;
+	//wc.hIcon = static_cast<HICON>(LoadImage(
+		//GetInstance(), MAKEINTRESOURCE(IDI_ICON1),
+		//IMAGE_ICON, 32, 32, 0
+	//));
 	wc.hCursor = nullptr;
 	wc.hbrBackground = nullptr;
 	wc.lpszMenuName = nullptr;
 	wc.lpszClassName = GetName();
-	wc.hIconSm = nullptr;
+	/*wc.hIconSm = static_cast<HICON>(LoadImage(
+		GetInstance(), MAKEINTRESOURCE(IDI_ICON1),
+		IMAGE_ICON, 16, 16, 0
+	)); */
 	RegisterClassEx(&wc);
 }
 
@@ -91,7 +100,7 @@ void Window::SetTitle(const std::string& title)
 	}
 }
 
-std::optional<int> Window::ProcessMessages()
+std::optional<int> Window::ProcessMessages() noexcept
 {
 	MSG msg;
 	// while queue has messages, remove and dispatch them (but do not block on empty queue)
@@ -115,6 +124,10 @@ std::optional<int> Window::ProcessMessages()
 
 Graphics& Window::Gfx()
 {
+	if (!pGfx)
+	{
+		throw CHWND_NOGFX_EXCEPT();
+	}
 	return *pGfx;
 }
 
@@ -211,6 +224,7 @@ LRESULT Window::HandleMsg(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noe
 	{
 		const POINTS pt = MAKEPOINTS(lParam);
 		mouse.OnLeftPressed(pt.x, pt.y);
+		SetForegroundWindow(hWnd);
 		break;
 	}
 	case WM_RBUTTONDOWN:
@@ -258,33 +272,11 @@ LRESULT Window::HandleMsg(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noe
 
 
 // Window Exception Stuff
-Window::Exception::Exception(int line, const char* file, HRESULT hr) noexcept
-	:
-	ChiliException(line, file),
-	hr(hr)
-{}
-
-const char* Window::Exception::what() const noexcept
-{
-	std::ostringstream oss;
-	oss << GetType() << std::endl
-		<< "[Error Code] " << GetErrorCode() << std::endl
-		<< "[Description] " << GetErrorString() << std::endl
-		<< GetOriginString();
-	whatBuffer = oss.str();
-	return whatBuffer.c_str();
-}
-
-const char* Window::Exception::GetType() const noexcept
-{
-	return "Chili Window Exception";
-}
-
 std::string Window::Exception::TranslateErrorCode(HRESULT hr) noexcept
 {
 	char* pMsgBuf = nullptr;
 	// windows will allocate memory for err string and make our pointer point to it
-	DWORD nMsgLen = FormatMessage(
+	const DWORD nMsgLen = FormatMessage(
 		FORMAT_MESSAGE_ALLOCATE_BUFFER |
 		FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS,
 		nullptr, hr, MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
@@ -302,12 +294,42 @@ std::string Window::Exception::TranslateErrorCode(HRESULT hr) noexcept
 	return errorString;
 }
 
-HRESULT Window::Exception::GetErrorCode() const noexcept
+
+Window::HrException::HrException(int line, const char* file, HRESULT hr) noexcept
+	:
+	Exception(line, file),
+	hr(hr)
+{}
+
+const char* Window::HrException::what() const noexcept
+{
+	std::ostringstream oss;
+	oss << GetType() << std::endl
+		<< "[Error Code] 0x" << std::hex << std::uppercase << GetErrorCode()
+		<< std::dec << " (" << (unsigned long)GetErrorCode() << ")" << std::endl
+		<< "[Description] " << GetErrorDescription() << std::endl
+		<< GetOriginString();
+	whatBuffer = oss.str();
+	return whatBuffer.c_str();
+}
+
+const char* Window::HrException::GetType() const noexcept
+{
+	return "Chili Window Exception";
+}
+
+HRESULT Window::HrException::GetErrorCode() const noexcept
 {
 	return hr;
 }
 
-std::string Window::Exception::GetErrorString() const noexcept
+std::string Window::HrException::GetErrorDescription() const noexcept
 {
-	return TranslateErrorCode(hr);
+	return Exception::TranslateErrorCode(hr);
+}
+
+
+const char* Window::NoGfxException::GetType() const noexcept
+{
+	return "Chili Window Exception [No Graphics]";
 }

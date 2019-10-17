@@ -1,6 +1,6 @@
 #pragma once
 #include "Bindable.h"
-
+#include "GraphicsThrowMacros.h"
 
 template<typename C>
 class ConstantBuffer : public Bindable
@@ -8,20 +8,21 @@ class ConstantBuffer : public Bindable
 public:
 	void Update(Graphics& gfx, const C& consts)
 	{
-		
+		INFOMAN(gfx);
 
 		D3D11_MAPPED_SUBRESOURCE msr;
-		GetContext(gfx)->Map(
+		//GFX_THROW_INFO
+		(GetContext(gfx)->Map(
 			pConstantBuffer.Get(), 0u,
 			D3D11_MAP_WRITE_DISCARD, 0u,
 			&msr
-		);
+		));
 		memcpy(msr.pData, &consts, sizeof(consts));
 		GetContext(gfx)->Unmap(pConstantBuffer.Get(), 0u);
 	}
 	ConstantBuffer(Graphics& gfx, const C& consts)
 	{
-	
+		INFOMAN(gfx);
 
 		D3D11_BUFFER_DESC cbd;
 		cbd.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
@@ -33,11 +34,12 @@ public:
 
 		D3D11_SUBRESOURCE_DATA csd = {};
 		csd.pSysMem = &consts;
-		GetDevice(gfx)->CreateBuffer(&cbd, &csd, &pConstantBuffer);
+		//GFX_THROW_INFO
+		(GetDevice(gfx)->CreateBuffer(&cbd, &csd, &pConstantBuffer));
 	}
 	ConstantBuffer(Graphics& gfx)
 	{
-
+		INFOMAN(gfx);
 
 		D3D11_BUFFER_DESC cbd;
 		cbd.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
@@ -46,7 +48,8 @@ public:
 		cbd.MiscFlags = 0u;
 		cbd.ByteWidth = sizeof(C);
 		cbd.StructureByteStride = 0u;
-		GetDevice(gfx)->CreateBuffer(&cbd, nullptr, &pConstantBuffer);
+		//	GFX_THROW_INFO
+		(GetDevice(gfx)->CreateBuffer(&cbd, nullptr, &pConstantBuffer));
 	}
 protected:
 	Microsoft::WRL::ComPtr<ID3D11Buffer> pConstantBuffer;

@@ -2,7 +2,6 @@
 
 using namespace std::chrono;
 
-/*Boilerplate Class probs not gonna change just allows me to add fades into my background.*/
 ChiliTimer::ChiliTimer() noexcept
 {
 	last = steady_clock::now();

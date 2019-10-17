@@ -1,5 +1,6 @@
 #include "Box.h"
 #include "BindableBase.h"
+#include "GraphicsThrowMacros.h"
 
 Box::Box(Graphics& gfx,
 	std::mt19937& rng,

@@ -41,7 +41,7 @@ App::~App()
 void App::DoFrame()
 {
 	auto dt = timer.Mark();
-	//wnd.Gfx().ClearBuffer(0.07f, 0.0f, 0.12f);
+	wnd.Gfx().ClearBuffer(0.07f, 0.0f, 0.12f);
 	for (auto& b : boxes)
 	{
 		b->Update(dt);

@@ -1,7 +1,7 @@
 #include "ChiliException.h"
 #include <sstream>
 
-/* WIP*/
+
 ChiliException::ChiliException(int line, const char* file) noexcept
 	:
 	line(line),

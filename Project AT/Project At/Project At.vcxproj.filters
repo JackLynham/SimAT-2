@@ -28,6 +28,9 @@
     <Filter Include="Source Files\Drawable">
       <UniqueIdentifier>{5489ba85-f91c-4783-ae21-385f2bb4f8bf}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Macros">
+      <UniqueIdentifier>{ab3b6399-19d7-4efb-93d7-96279236dfd7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="WinMain.cpp">
@@ -90,6 +93,9 @@
     <ClCompile Include="Box.cpp">
       <Filter>Source Files\Drawable</Filter>
     </ClCompile>
+    <ClCompile Include="DxgiInfoManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Window.h">
@@ -151,6 +157,15 @@
     </ClInclude>
     <ClInclude Include="Box.h">
       <Filter>Header Files\Drawable</Filter>
+    </ClInclude>
+    <ClInclude Include="DxgiInfoManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GraphicsThrowMacros.h">
+      <Filter>Header Files\Macros</Filter>
+    </ClInclude>
+    <ClInclude Include="WindowThrowMacros.h">
+      <Filter>Header Files\Macros</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
