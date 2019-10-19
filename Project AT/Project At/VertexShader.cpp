@@ -6,13 +6,13 @@ VertexShader::VertexShader(Graphics& gfx, const std::wstring& path)
 {
 	INFOMAN(gfx);
 
-(D3DReadFileToBlob(path.c_str(), &pBytecodeBlob));
-(GetDevice(gfx)->CreateVertexShader(
+	D3DReadFileToBlob(path.c_str(), &pBytecodeBlob);
+	GetDevice(gfx)->CreateVertexShader(
 		pBytecodeBlob->GetBufferPointer(),
 		pBytecodeBlob->GetBufferSize(),
 		nullptr,
 		&pVertexShader
-	));
+	);
 }
 
 void VertexShader::Bind(Graphics& gfx) noexcept

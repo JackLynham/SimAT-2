@@ -11,7 +11,6 @@ public:
 		INFOMAN(gfx);
 
 		D3D11_MAPPED_SUBRESOURCE msr;
-		//GFX_THROW_INFO
 		(GetContext(gfx)->Map(
 			pConstantBuffer.Get(), 0u,
 			D3D11_MAP_WRITE_DISCARD, 0u,
@@ -34,8 +33,7 @@ public:
 
 		D3D11_SUBRESOURCE_DATA csd = {};
 		csd.pSysMem = &consts;
-		//GFX_THROW_INFO
-		(GetDevice(gfx)->CreateBuffer(&cbd, &csd, &pConstantBuffer));
+		GetDevice(gfx)->CreateBuffer(&cbd, &csd, &pConstantBuffer);
 	}
 	ConstantBuffer(Graphics& gfx)
 	{
@@ -48,8 +46,7 @@ public:
 		cbd.MiscFlags = 0u;
 		cbd.ByteWidth = sizeof(C);
 		cbd.StructureByteStride = 0u;
-		//	GFX_THROW_INFO
-		(GetDevice(gfx)->CreateBuffer(&cbd, nullptr, &pConstantBuffer));
+		GetDevice(gfx)->CreateBuffer(&cbd, nullptr, &pConstantBuffer);
 	}
 protected:
 	Microsoft::WRL::ComPtr<ID3D11Buffer> pConstantBuffer;

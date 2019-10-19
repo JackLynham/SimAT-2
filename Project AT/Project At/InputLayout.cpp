@@ -7,12 +7,12 @@ InputLayout::InputLayout(Graphics& gfx,
 {
 	INFOMAN(gfx);
 
-	(GetDevice(gfx)->CreateInputLayout(
+	GetDevice(gfx)->CreateInputLayout(
 		layout.data(), (UINT)layout.size(),
 		pVertexShaderBytecode->GetBufferPointer(),
 		pVertexShaderBytecode->GetBufferSize(),
 		&pInputLayout
-	));
+	);
 }
 
 void InputLayout::Bind(Graphics& gfx) noexcept

@@ -13,7 +13,7 @@ private:
 	void DoFrame();
 private:
 	Window wnd;
-	Timer timer;
+	ChiliTimer timer;
 	std::vector<std::unique_ptr<class Drawable>> drawables;
 	static constexpr size_t nDrawables = 180;
 };

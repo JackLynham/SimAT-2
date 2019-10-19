@@ -116,8 +116,8 @@ void Graphics::EndFrame()
 	infoManager.Set();
 #endif
 	pSwap->Present(1u, 0u);
-	
-	
+
+
 }
 
 void Graphics::ClearBuffer(float red, float green, float blue) noexcept
