@@ -47,8 +47,8 @@ Melon::Melon(Graphics& gfx,
 		const PixelShaderConstants cb2 =
 		{
 			{
-				{ 1.0f,1.0f,1.0f },
-				{ 1.0f,0.0f,0.0f },
+				{ 1.0f,0.0f,.0f },
+				{ 0.0f,1.0f,0.0f },
 				{ 0.0f,1.0f,0.0f },
 				{ 1.0f,1.0f,0.0f },
 				{ 0.0f,0.0f,1.0f },

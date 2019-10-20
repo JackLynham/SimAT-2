@@ -17,7 +17,7 @@ Box::Box(Graphics& gfx,
 	dpitch(ddist(rng)),
 	dyaw(ddist(rng)),
 	dphi(odist(rng)),
-	dtheta(odist(rng)),
+	dtheta(odist(rng)),    //All the diffrent type of rotation
 	dchi(odist(rng)),
 	chi(adist(rng)),
 	theta(adist(rng)),

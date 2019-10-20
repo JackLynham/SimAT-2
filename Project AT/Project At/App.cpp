@@ -9,7 +9,7 @@
 
 App::App()
 	:
-	wnd(800, 600, "The Donkey Fart Box")
+	wnd(800, 600, "Game Window")   //Nameo f window 
 {
 	class Factory
 	{
@@ -20,7 +20,7 @@ App::App()
 		{}
 		std::unique_ptr<Drawable> operator()()
 		{
-			switch (typedist(rng))
+			switch (typedist(rng))    //Switch Case that Spawns objs
 			{
 			case 0:
 				return std::make_unique<Pyramid>(
