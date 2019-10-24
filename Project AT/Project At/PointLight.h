@@ -14,11 +14,19 @@ public:
 private:
 	struct PointLightCBuf
 	{
-		DirectX::XMFLOAT3 pos;
-		float padding;
+		
+		alignas(16) DirectX::XMFLOAT3 pos;
+	 /* Pixel shader expect 16 bit values so Alignas 16 allows us to allign it to 16 bites  */
+		alignas(16)DirectX::XMFLOAT3 ambient;
+		alignas(16)DirectX::XMFLOAT3 diffuseColor;
+
+		float diffuseIntensity;
+		float attConst;
+		float attlin;
+		float attquad;
 	};
 private:
-	DirectX::XMFLOAT3 pos = { 0.0f,0.0f,0.0f };;
+	PointLightCBuf cbData; //This is used to manage the above data in struct
 	mutable SolidSphere mesh;
 	mutable PixelConstantBuffer<PointLightCBuf> cbuf;
 };
