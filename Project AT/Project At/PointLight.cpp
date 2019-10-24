@@ -58,8 +58,11 @@ void PointLight::Draw(Graphics& gfx) const noexcept
 	mesh.Draw(gfx);
 }
 
-void PointLight::Bind(Graphics& gfx) const noexcept
+void PointLight::Bind(Graphics& gfx, DirectX::FXMMATRIX view) const noexcept   //Added FmMatrix its a view Matix
 {
-	cbuf.Update(gfx, cbData);
+	auto dataCopy = cbData; //Copy Light data 
+	const auto pos = DirectX::XMLoadFloat3(&cbData.pos); //Load Data 
+	DirectX::XMStoreFloat3(&dataCopy.pos, DirectX::XMVector3Transform(pos, view)); //Transform it with view matrix
+	cbuf.Update(gfx, dataCopy); //Light relative to the cam
 	cbuf.Bind(gfx);
 }
