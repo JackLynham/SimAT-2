@@ -6,7 +6,7 @@
 #include "Surface.h"
 #include "GDIPlusManager.h"
 #include "imgui/imgui.h"
-
+#include "SkinnedBox.h"
 namespace dx = DirectX;
 
 GDIPlusManager gdipm;
