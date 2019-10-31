@@ -1,9 +1,10 @@
 #pragma once
-#include "Win.h"
+#include "win.h"
 #include "ChiliException.h"
 #include <string>
 #include <assert.h>
 #include <memory>
+#include "ConditionalNoexcept.h"
 
 
 class Surface
@@ -94,32 +95,27 @@ public:
 		std::string note;
 	};
 public:
-	Surface(unsigned int width, unsigned int height) noexcept;   //Can Construct Empty Surfaces
-
+	Surface(unsigned int width, unsigned int height) noexcept;
 	Surface(Surface&& source) noexcept;
 	Surface(Surface&) = delete;
 	Surface& operator=(Surface&& donor) noexcept;
 	Surface& operator=(const Surface&) = delete;
 	~Surface();
-
 	void Clear(Color fillValue) noexcept;
-	void PutPixel(unsigned int x, unsigned int y, Color c) noexcept;
-	Color GetPixel(unsigned int x, unsigned int y) const noexcept;   //Set and get particular pixels
-
+	void PutPixel(unsigned int x, unsigned int y, Color c) noxnd;
+	Color GetPixel(unsigned int x, unsigned int y) const noxnd;
 	unsigned int GetWidth() const noexcept;
 	unsigned int GetHeight() const noexcept;
-
 	Color* GetBufferPtr() noexcept;
 	const Color* GetBufferPtr() const noexcept;
 	const Color* GetBufferPtrConst() const noexcept;
-
-	static Surface FromFile(const std::string& name);  //Creating them from file Also savable
+	static Surface FromFile(const std::string& name);
 	void Save(const std::string& filename) const;
-	void Copy(const Surface& src) noexcept;
+	void Copy(const Surface& src) noxnd;
 private:
 	Surface(unsigned int width, unsigned int height, std::unique_ptr<Color[]> pBufferParam) noexcept;
 private:
-	std::unique_ptr<Color[]> pBuffer;  //Stores Image data As an Array of Color
+	std::unique_ptr<Color[]> pBuffer;
 	unsigned int width;
-	unsigned int height; 
+	unsigned int height;
 };

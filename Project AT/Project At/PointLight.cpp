@@ -11,7 +11,7 @@ PointLight::PointLight(Graphics& gfx, float radius)
 
 void PointLight::SpawnControlWindow() noexcept
 {
-	if (ImGui::Begin("Light"))
+	if (ImGui::Begin("Light") )
 	{
 		ImGui::Text("Position");
 		ImGui::SliderFloat("X", &cbData.pos.x, -60.0f, 60.0f, "%.1f");
@@ -27,8 +27,8 @@ void PointLight::SpawnControlWindow() noexcept
 
 		ImGui::Text("Falloff");
 		ImGui::SliderFloat("Constant", &cbData.attConst, 0.05f, 10.0f, "%.2f", 4);
-		ImGui::SliderFloat("Linear", &cbData.attlin, 0.0001f, 4.0f, "%.4f", 8);
-		ImGui::SliderFloat("Quadratic", &cbData.attquad, 0.0000001f, 10.0f, "%.7f", 10);
+		ImGui::SliderFloat("Linear", &cbData.attLin, 0.0001f, 4.0f, "%.4f", 8);
+		ImGui::SliderFloat("Quadratic", &cbData.attQuad, 0.0000001f, 10.0f, "%.7f", 10);
 
 		if (ImGui::Button("Reset"))
 		{

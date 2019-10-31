@@ -1,7 +1,8 @@
 #pragma once
 #include "Graphics.h"
 #include "SolidSphere.h"
-#include "ConstantBuffer.h"
+#include "ConstantBuffers.h"
+#include "ConditionalNoexcept.h"
 
 class PointLight
 {
@@ -9,24 +10,21 @@ public:
 	PointLight(Graphics& gfx, float radius = 0.5f);
 	void SpawnControlWindow() noexcept;
 	void Reset() noexcept;
-	void Draw(Graphics& gfx) const noexcept;
+	void Draw(Graphics& gfx) const noxnd;
 	void Bind(Graphics& gfx, DirectX::FXMMATRIX view) const noexcept;
 private:
 	struct PointLightCBuf
 	{
-		
 		alignas(16) DirectX::XMFLOAT3 pos;
-	 /* Pixel shader expect 16 bit values so Alignas 16 allows us to allign it to 16 bites  */
-		alignas(16)DirectX::XMFLOAT3 ambient;
-		alignas(16)DirectX::XMFLOAT3 diffuseColor;
-
+		alignas(16) DirectX::XMFLOAT3 ambient;
+		alignas(16) DirectX::XMFLOAT3 diffuseColor;
 		float diffuseIntensity;
 		float attConst;
-		float attlin;
-		float attquad;
+		float attLin;
+		float attQuad;
 	};
 private:
-	PointLightCBuf cbData; //This is used to manage the above data in struct
+	PointLightCBuf cbData;
 	mutable SolidSphere mesh;
-	mutable PixelConstantBuffer<PointLightCBuf> cbuf;
+	mutable Bind::PixelConstantBuffer<PointLightCBuf> cbuf;
 };

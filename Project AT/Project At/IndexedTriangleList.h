@@ -27,7 +27,7 @@ public:
 		}
 	}
 	// asserts face-independent vertices w/ normals cleared to zero
-	void SetNormalsIndependentFlat() noexcept
+	void SetNormalsIndependentFlat() noxnd
 	{
 		using namespace DirectX;
 		assert(indices.size() % 3 == 0 && indices.size() > 0);
