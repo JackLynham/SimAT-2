@@ -27,6 +27,6 @@ private:
 	};
 private:
 	PointLightCBuf cbData; //This is used to manage the above data in struct
-	mutable SolidSphere mesh;
-	mutable PixelConstantBuffer<PointLightCBuf> cbuf;
+	//mutable SolidSphere mesh;
+	//mutable PixelConstantBuffer<PointLightCBuf> cbuf;
 };
