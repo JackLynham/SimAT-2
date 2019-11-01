@@ -1,7 +1,6 @@
 #define FULL_WINTARD
 #include "Surface.h"
 #include <algorithm>
-#include <sstream>
 namespace Gdiplus
 {
 	using std::min;
@@ -43,7 +42,7 @@ void Surface::Clear(Color fillValue) noexcept
 	memset(pBuffer.get(), fillValue.dword, width * height * sizeof(Color));
 }
 
-void Surface::PutPixel(unsigned int x, unsigned int y, Color c) noexcept
+void Surface::PutPixel(unsigned int x, unsigned int y, Color c) noxnd
 {
 	assert(x >= 0);
 	assert(y >= 0);
@@ -52,7 +51,7 @@ void Surface::PutPixel(unsigned int x, unsigned int y, Color c) noexcept
 	pBuffer[y * width + x] = c;
 }
 
-Surface::Color Surface::GetPixel(unsigned int x, unsigned int y) const noexcept
+Surface::Color Surface::GetPixel(unsigned int x, unsigned int y) const noxnd
 {
 	assert(x >= 0);
 	assert(y >= 0);
@@ -90,7 +89,6 @@ Surface Surface::FromFile(const std::string& name)
 {
 	unsigned int width = 0;
 	unsigned int height = 0;
-	unsigned int pitch = 0;
 	std::unique_ptr<Color[]> pBuffer;
 
 	{
@@ -105,6 +103,7 @@ Surface Surface::FromFile(const std::string& name)
 			ss << "Loading image [" << name << "]: failed to load.";
 			throw Exception(__LINE__, __FILE__, ss.str());
 		}
+
 		width = bitmap.GetWidth();
 		height = bitmap.GetHeight();
 		pBuffer = std::make_unique<Color[]>(width * height);
@@ -184,7 +183,7 @@ void Surface::Save(const std::string& filename) const
 	}
 }
 
-void Surface::Copy(const Surface& src) noexcept
+void Surface::Copy(const Surface& src) noxnd
 {
 	assert(width == src.width);
 	assert(height == src.height);

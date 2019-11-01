@@ -1,6 +1,6 @@
 #pragma once
 #include "Window.h"
-#include "timer.h"
+#include "Timer.h"
 #include "ImguiManager.h"
 #include "Camera.h"
 #include "PointLight.h"

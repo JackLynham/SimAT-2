@@ -1,7 +1,7 @@
 #include "App.h"
 #include <memory>
 #include <algorithm>
-#include "maths.h"
+#include "Maths.h"
 #include "Surface.h"
 #include "GDIPlusManager.h"
 #include "imgui/imgui.h"
@@ -15,6 +15,7 @@ App::App()
 	wnd(1280, 720, "The Donkey Fart Box"),
 	light(wnd.Gfx())
 {
+
 	wnd.Gfx().SetProjection(dx::XMMatrixPerspectiveLH(1.0f, 9.0f / 16.0f, 0.5f, 40.0f));
 }
 
@@ -25,7 +26,7 @@ void App::DoFrame()
 	wnd.Gfx().SetCamera(cam.GetMatrix());
 	light.Bind(wnd.Gfx(), cam.GetMatrix());
 
-	nano.Draw(wnd.Gfx());
+	//nano.Draw( wnd.Gfx() );
 	light.Draw(wnd.Gfx());
 
 	while (const auto e = wnd.kbd.ReadKey())
@@ -94,20 +95,12 @@ void App::DoFrame()
 	// imgui windows
 	cam.SpawnControlWindow();
 	light.SpawnControlWindow();
-	ShowImguiDemoWindow();
-	nano.ShowWindow();
+	//nano.ShowWindow();
 
 	// present
 	wnd.Gfx().EndFrame();
 }
 
-void App::ShowImguiDemoWindow()
-{
-	if (showDemoWindow)
-	{
-		ImGui::ShowDemoWindow(&showDemoWindow);
-	}
-}
 
 App::~App()
 {}

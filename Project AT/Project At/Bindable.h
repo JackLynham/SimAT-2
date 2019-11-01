@@ -15,3 +15,4 @@ namespace Bind
 		static DxgiInfoManager& GetInfoManager(Graphics& gfx);
 	};
 }
+
