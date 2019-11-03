@@ -3,6 +3,7 @@
 //#include "GraphicsThrowMacros.h"
 //#include "Spheres.h"
 //
+//using namespace Bind;
 //
 //Melon::Melon(Graphics& gfx,
 //	std::mt19937& rng,
@@ -24,6 +25,7 @@
 //	theta(adist(rng)),
 //	phi(adist(rng))
 //{
+//	using namespace Bind;
 //	namespace dx = DirectX;
 //
 //	if (!IsStaticInitialized())

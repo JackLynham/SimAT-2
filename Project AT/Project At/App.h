@@ -1,10 +1,9 @@
 #pragma once
 #include "Window.h"
-#include "Timer.h"
+#include "timer.h"
 #include "ImguiManager.h"
 #include "Camera.h"
 #include "PointLight.h"
-//#include "Mesh.h"
 #include <set>
 
 class App
@@ -16,14 +15,20 @@ public:
 	~App();
 private:
 	void DoFrame();
-	void ShowImguiDemoWindow();
+	void SpawnSimulationWindow() noexcept;
+	void SpawnBoxWindowManagerWindow() noexcept;
+	void SpawnBoxWindows() noexcept;
 private:
 	bool showDemoWindow = false;
 	ImguiManager imgui;
 	Window wnd;
-	ChiliTimer timer;
+	Timer timer;
+	std::vector<std::unique_ptr<class Drawable>> drawables;
+	std::vector<class Box*> boxes;
 	float speed_factor = 1.0f;
 	Camera cam;
 	PointLight light;
-	//Model nano{ wnd.Gfx(),"Models\\nano.gltf" };
+	static constexpr size_t nDrawables = 20;
+	std::optional<int> comboBoxIndex;
+	std::set<int> boxControlIds;
 };

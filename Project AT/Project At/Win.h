@@ -1,4 +1,3 @@
-
 #pragma once
 
 // target Windows 7 or later

@@ -76,6 +76,7 @@ public:
 			indices.push_back(i + 1 + 2);
 			indices.push_back((i + 3) % mod + 2);
 		}
+
 		return { std::move(vertices),std::move(indices) };
 	}
 	template<class V>

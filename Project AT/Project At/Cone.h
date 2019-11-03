@@ -116,7 +116,6 @@ public:
 			indices.push_back(iLong + iBaseEdge);
 		}
 
-
 		return { std::move(vertices),std::move(indices) };
 	}
 	template<class V>

@@ -1,5 +1,5 @@
 #pragma once
-#include "Win.h"
+#include "win.h"
 
 class GDIPlusManager
 {

@@ -1,6 +1,5 @@
 #include "Window.h"
 #include <sstream>
-//#include "resource.h"
 #include "WindowThrowMacros.h"
 #include "imgui/imgui_impl_win32.h"
 

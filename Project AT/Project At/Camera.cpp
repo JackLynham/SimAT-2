@@ -71,3 +71,5 @@ void Camera::Translate(DirectX::XMFLOAT3 translation) noexcept
 		pos.z + translation.z
 	};
 }
+
+

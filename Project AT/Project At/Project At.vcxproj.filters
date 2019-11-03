@@ -311,9 +311,6 @@
     <ClInclude Include="imgui\imstb_truetype.h">
       <Filter>Header Files\imgui</Filter>
     </ClInclude>
-    <ClInclude Include="TestObject.h">
-      <Filter>Header Files\Bindable</Filter>
-    </ClInclude>
     <ClInclude Include="Cylinder.h">
       <Filter>Header Files\Drawable</Filter>
     </ClInclude>
@@ -329,11 +326,11 @@
     <ClInclude Include="Vertex.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="BindableCommon.h">
-      <Filter>Source Files\Bindable</Filter>
+    <ClInclude Include="TestObject.h">
+      <Filter>Header Files\Drawable</Filter>
     </ClInclude>
-    <ClInclude Include="ConstantBuffers.h">
-      <Filter>Source Files\Bindable</Filter>
+    <ClInclude Include="BindableCommon.h">
+      <Filter>Header Files\Bindable</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

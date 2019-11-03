@@ -89,8 +89,8 @@ private:
 	void OnMouseMove(int x, int y) noexcept;
 	void OnMouseLeave() noexcept;
 	void OnMouseEnter() noexcept;
-	void OnRawDelta(int dx, int dy) noexcept;
 	void OnLeftPressed(int x, int y) noexcept;
+	void OnRawDelta(int dx, int dy) noexcept;
 	void OnLeftReleased(int x, int y) noexcept;
 	void OnRightPressed(int x, int y) noexcept;
 	void OnRightReleased(int x, int y) noexcept;

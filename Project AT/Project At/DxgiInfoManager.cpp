@@ -6,6 +6,7 @@
 #include "GraphicsThrowMacros.h"
 #include "WindowThrowMacros.h"
 
+
 #pragma comment(lib, "dxguid.lib")
 
 
@@ -18,7 +19,7 @@ DxgiInfoManager::DxgiInfoManager()
 	const auto hModDxgiDebug = LoadLibraryEx("dxgidebug.dll", nullptr, LOAD_LIBRARY_SEARCH_SYSTEM32);
 	if (hModDxgiDebug == nullptr)
 	{
-		throw CHWND_LAST_EXCEPT();
+		//throw CHWND_LAST_EXCEPT();
 	}
 
 	// get address of DXGIGetDebugInterface in dll
@@ -27,7 +28,7 @@ DxgiInfoManager::DxgiInfoManager()
 		);
 	if (DxgiGetDebugInterface == nullptr)
 	{
-		throw CHWND_LAST_EXCEPT();
+		//throw CHWND_LAST_EXCEPT();
 	}
 
 	HRESULT hr;

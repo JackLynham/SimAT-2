@@ -1,8 +1,7 @@
 #pragma once
 #include "Graphics.h"
 #include "SolidSphere.h"
-#include "ConstantBuffers.h"
-#include "ConditionalNoexcept.h"
+#include "ConstantBuffer.h"
 
 class PointLight
 {
@@ -10,7 +9,7 @@ public:
 	PointLight(Graphics& gfx, float radius = 0.5f);
 	void SpawnControlWindow() noexcept;
 	void Reset() noexcept;
-	void Draw(Graphics& gfx) const noxnd;
+	void Draw(Graphics& gfx) const noexcept;
 	void Bind(Graphics& gfx, DirectX::FXMMATRIX view) const noexcept;
 private:
 	struct PointLightCBuf
@@ -26,5 +25,5 @@ private:
 private:
 	PointLightCBuf cbData;
 	mutable SolidSphere mesh;
-	mutable Bind::PixelConstantBuffer<PointLightCBuf> cbuf;
+	mutable PixelConstantBuffer<PointLightCBuf> cbuf;
 };

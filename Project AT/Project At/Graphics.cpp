@@ -77,8 +77,8 @@ Graphics::Graphics(HWND hWnd, int width, int height)
 	// create depth stensil texture
 	wrl::ComPtr<ID3D11Texture2D> pDepthStencil;
 	D3D11_TEXTURE2D_DESC descDepth = {};
-	descDepth.Width = width;
-	descDepth.Height = height;
+	descDepth.Width = 800u;
+	descDepth.Height = 600u;
 	descDepth.MipLevels = 1u;
 	descDepth.ArraySize = 1u;
 	descDepth.Format = DXGI_FORMAT_D32_FLOAT;
@@ -102,8 +102,8 @@ Graphics::Graphics(HWND hWnd, int width, int height)
 
 	// configure viewport
 	D3D11_VIEWPORT vp;
-	vp.Width = (float)width;
-	vp.Height = (float)height;
+	vp.Width = 800.0f;
+	vp.Height = 600.0f;
 	vp.MinDepth = 0.0f;
 	vp.MaxDepth = 1.0f;
 	vp.TopLeftX = 0.0f;
@@ -151,9 +151,9 @@ void Graphics::BeginFrame(float red, float green, float blue) noexcept
 	pContext->ClearDepthStencilView(pDSV.Get(), D3D11_CLEAR_DEPTH, 1.0f, 0u);
 }
 
-void Graphics::DrawIndexed(UINT count) noxnd
+void Graphics::DrawIndexed(UINT count) noexcept
 {
-	GFX_THROW_INFO_ONLY(pContext->DrawIndexed(count, 0u, 0u));
+	(pContext->DrawIndexed(count, 0u, 0u));
 }
 
 void Graphics::SetProjection(DirectX::FXMMATRIX proj) noexcept
@@ -191,6 +191,7 @@ bool Graphics::IsImguiEnabled() const noexcept
 	return imguiEnabled;
 }
 
+
 Graphics::InfoException::InfoException(int line, const char* file, std::vector<std::string> infoMsgs) noexcept
 	:
 	Exception(line, file)
@@ -207,7 +208,6 @@ Graphics::InfoException::InfoException(int line, const char* file, std::vector<s
 		info.pop_back();
 	}
 }
-
 
 const char* Graphics::InfoException::what() const noexcept
 {

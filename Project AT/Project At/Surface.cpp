@@ -42,7 +42,7 @@ void Surface::Clear(Color fillValue) noexcept
 	memset(pBuffer.get(), fillValue.dword, width * height * sizeof(Color));
 }
 
-void Surface::PutPixel(unsigned int x, unsigned int y, Color c) noxnd
+void Surface::PutPixel(unsigned int x, unsigned int y, Color c) noexcept
 {
 	assert(x >= 0);
 	assert(y >= 0);
@@ -51,7 +51,7 @@ void Surface::PutPixel(unsigned int x, unsigned int y, Color c) noxnd
 	pBuffer[y * width + x] = c;
 }
 
-Surface::Color Surface::GetPixel(unsigned int x, unsigned int y) const noxnd
+Surface::Color Surface::GetPixel(unsigned int x, unsigned int y) const noexcept
 {
 	assert(x >= 0);
 	assert(y >= 0);
@@ -132,19 +132,19 @@ void Surface::Save(const std::string& filename) const
 		Gdiplus::ImageCodecInfo* pImageCodecInfo = nullptr;
 
 		Gdiplus::GetImageEncodersSize(&num, &size);
-		if (size == 0)
-		{
-			std::stringstream ss;
-			ss << "Saving surface to [" << filename << "]: failed to get encoder; size == 0.";
-			throw Exception(__LINE__, __FILE__, ss.str());
-		}
+		/*	if( size == 0 )
+			{
+				std::stringstream ss;
+				ss << "Saving surface to [" << filename << "]: failed to get encoder; size == 0.";
+				throw Exception( __LINE__,__FILE__ ,ss.str() );
+			}*/
 
 		pImageCodecInfo = (Gdiplus::ImageCodecInfo*)(malloc(size));
 		if (pImageCodecInfo == nullptr)
 		{
-			std::stringstream ss;
-			ss << "Saving surface to [" << filename << "]: failed to get encoder; failed to allocate memory.";
-			throw Exception(__LINE__, __FILE__, ss.str());
+			//std::stringstream ss;
+			//ss << "Saving surface to [" << filename << "]: failed to get encoder; failed to allocate memory.";
+			////throw Exception( __LINE__,__FILE__,ss.str() );
 		}
 
 		GetImageEncoders(num, size, pImageCodecInfo);
@@ -183,7 +183,7 @@ void Surface::Save(const std::string& filename) const
 	}
 }
 
-void Surface::Copy(const Surface& src) noxnd
+void Surface::Copy(const Surface& src) noexcept
 {
 	assert(width == src.width);
 	assert(height == src.height);
