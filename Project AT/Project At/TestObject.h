@@ -25,19 +25,35 @@ public:
 	{}
 	void Update(float dt) noexcept
 	{
+		r* dt;
 		roll = wrap_angle(roll + droll * dt);
 		pitch = wrap_angle(pitch + dpitch * dt);
 		yaw = wrap_angle(yaw + dyaw * dt);
 		theta = wrap_angle(theta + dtheta * dt);
 		phi = wrap_angle(phi + dphi * dt);
 		chi = wrap_angle(chi + dchi * dt);
+
+		if (r < 30 && tR== 30)
+		{
+			r+= 0.1 ;
+		}
+		if (r >= tR)
+		{
+			tR = 0;
+			r -= 0.1 ;
+		}
+		if (r <= 1)
+		{
+			tR = 30;
+		}
+		
 	}
 	DirectX::XMMATRIX GetTransformXM() const noexcept
 	{
 		namespace dx = DirectX;
 		return //dx::XMMatrixRotationRollPitchYaw(pitch, yaw, roll) *
-			dx::XMMatrixTranslation(r, 0.0f, 0.0f)*
-			dx::XMMatrixRotationRollPitchYaw(theta, phi, chi);
+			dx::XMMatrixTranslation(r, 0.0f, 0.0f); //*
+			//dx::XMMatrixRotationRollPitchYaw(theta, phi, chi);
 	}
 protected:
 	// positional
@@ -55,4 +71,11 @@ protected:
 	float dtheta;
 	float dphi;
 	float dchi;
+
+	float tR =30 ;
+	bool test;
+	float tPitch = 180;
+	float tYaw = 180;
+
+	
 };

@@ -36,7 +36,6 @@ void App::DoFrame()
 {
 	drawables.reserve(tDrawables);
 
-	boxes[1];
 	const auto dt = timer.Mark() * speed_factor;
 	wnd.Gfx().BeginFrame(0.07f, 0.0f, 0.12f);
 	wnd.Gfx().SetCamera(cam.GetMatrix());
