@@ -106,5 +106,5 @@ void Box::SyncMaterial(Graphics& gfx) noexcept
 {
 	auto pConstPS = QueryBindable<MaterialCbuf>();
 	assert(pConstPS != nullptr);
-	pConstPS->Update(gfx, materialConstants);
+	//pConstPS->Update(gfx, materialConstants);
 }

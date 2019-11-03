@@ -4,6 +4,7 @@
 #include "ImguiManager.h"
 #include "Camera.h"
 #include "PointLight.h"
+#include "TestObject.h"
 #include <set>
 #include "Box.h"
 #include "Cylinder.h"
@@ -13,6 +14,7 @@
 #include <algorithm>
 #include "Maths.h"
 #include "Surface.h"
+
 
 
 class App
@@ -28,6 +30,7 @@ private:
 	void SpawnSimulationWindow() noexcept;
 	void SpawnBoxWindowManagerWindow() noexcept;
 	void SpawnBoxWindows() noexcept;
+	
 private:
 	bool showDemoWindow = false;
 	ImguiManager imgui;
@@ -37,18 +40,20 @@ private:
 	std::vector<class Box*> boxes;
 	float speed_factor = 1.0f;
 	Camera cam;
+	
 	PointLight light;
+
 	//static constexpr size_t nDrawables = 10;
-	int test;
-	int tDrawables = 10;
+	int tDrawables = 1;
 	std::optional<int> comboBoxIndex;
 	std::set<int> boxControlIds;
-
+	
 
 
 	class Factory
 	{
 
+	friend class Factory;
 
 	public:
 		Factory(Graphics& gfx)
@@ -67,11 +72,7 @@ private:
 					gfx, rng, adist, ddist,
 					odist, rdist, bdist, mat
 					);
-			case 1:
-				return std::make_unique<Cylinder>(
-					gfx, rng, adist, ddist,
-					odist, rdist, bdist, tdist
-					);
+		
 
 
 			default:
@@ -82,7 +83,7 @@ private:
 	private:
 		Graphics& gfx;
 		std::mt19937 rng{ std::random_device{}() };
-		std::uniform_int_distribution<int> sdist{ 0,1 };
+		std::uniform_int_distribution<int> sdist{ 0,0 };
 		std::uniform_real_distribution<float> adist{ 0.0f,PI * 2.0f };
 		std::uniform_real_distribution<float> ddist{ 0.0f,PI * 0.5f };
 		std::uniform_real_distribution<float> odist{ 0.0f,PI * 0.08f };
@@ -93,6 +94,8 @@ private:
 
 
 	};
+
+
 };
 
 
