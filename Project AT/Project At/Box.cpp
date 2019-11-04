@@ -75,6 +75,7 @@ bool Box::SpawnControlWindow(int id, Graphics& gfx) noexcept
 
 	bool dirty = false;
 	bool open = true;
+
 	if (ImGui::Begin(("Box "s + std::to_string(id)).c_str(), &open))
 	{
 		ImGui::Text("Material Properties");
@@ -90,9 +91,16 @@ bool Box::SpawnControlWindow(int id, Graphics& gfx) noexcept
 		ImGui::Text("Orientation");
 		ImGui::SliderAngle("Roll", &roll, -180.0f, 180.0f);
 		ImGui::SliderAngle("Pitch", &pitch, -180.0f, 180.0f);
-		ImGui::SliderAngle("Yaw", &yaw, -180.0f, 180.0f);
+		ImGui::SliderAngle("Yaw", &yaw, -180.0f, 180.0f);	
+		ImGui::SliderAngle("Money", &money, 0.0f, 1000.0f);
+			
 	}
+
+
+
 	ImGui::End();
+
+	
 
 	if (dirty)
 	{
@@ -102,9 +110,22 @@ bool Box::SpawnControlWindow(int id, Graphics& gfx) noexcept
 	return open;
 }
 
+static void ShowDemoWindowWidgets()
+{
+	if (!ImGui::CollapsingHeader("Widgets"))
+		return;
+
+	if (ImGui::TreeNode("Basic"))
+	{
+		ImGui::ArrowButton("##right", ImGuiDir_Right);
+	}
+}
+
 void Box::SyncMaterial(Graphics& gfx) noexcept
 {
 	auto pConstPS = QueryBindable<MaterialCbuf>();
 	assert(pConstPS != nullptr);
 	pConstPS->Update(gfx, materialConstants);
 }
+
+

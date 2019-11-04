@@ -17,6 +17,23 @@ public:
 	// returns false if window is closed
 	bool SpawnControlWindow(int id, Graphics& gfx) noexcept;
 
+	void Update(float dt) noexcept
+	{
+		if (r < 20 && tR == 20)
+		{
+			r += 0.1;
+		}
+		if (r >= tR)
+		{
+			tR = 0;
+			r -= 0.1;
+		}
+		if (r <= 2)
+		{
+			tR = 20;
+			money++;
+		}
+	}
 private:
 	void SyncMaterial(Graphics& gfx) noexcept;
 private:

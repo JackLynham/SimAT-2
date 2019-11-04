@@ -33,7 +33,7 @@ public:
 		phi = wrap_angle(phi + dphi * dt);
 		chi = wrap_angle(chi + dchi * dt);
 
-		if (r < 30 && tR== 30)
+		/*if (r < 20 && tR== 20)
 		{
 			r+= 0.1 ;
 		}
@@ -42,10 +42,11 @@ public:
 			tR = 0;
 			r -= 0.1 ;
 		}
-		if (r <= 1)
+		if (r <= 2)
 		{
-			tR = 30;
-		}
+			tR = 20;
+			money++;
+		}*/
 		
 	}
 	DirectX::XMMATRIX GetTransformXM() const noexcept
@@ -72,10 +73,12 @@ protected:
 	float dphi;
 	float dchi;
 
-	float tR =30 ;
+	float tR= 20 ;
 	bool test;
 	float tPitch = 180;
 	float tYaw = 180;
+
+	float money = 0;
 
 	
 };

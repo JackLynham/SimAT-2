@@ -6,7 +6,6 @@
 #include "PointLight.h"
 #include "TestObject.h"
 #include <set>
-#include "Box.h"
 #include "Cylinder.h"
 #include "Pyramid.h"
 #include "SkinnedBox.h"
@@ -14,13 +13,15 @@
 #include <algorithm>
 #include "Maths.h"
 #include "Surface.h"
-
+#include "DrawableBase.h"
 
 
 class App
 {
 	friend class Factory;
 public:
+
+
 	App();
 	// master frame / message loop
 	int Go();
@@ -36,6 +37,7 @@ private:
 	ImguiManager imgui;
 	Window wnd;
 	Timer timer;
+	Box box;
 	std::vector<std::unique_ptr<class Drawable>> drawables;
 	std::vector<class Box*> boxes;
 	float speed_factor = 1.0f;
@@ -44,11 +46,11 @@ private:
 	PointLight light;
 
 	//static constexpr size_t nDrawables = 10;
-	int tDrawables = 1;
+	int tDrawables = 0;
 	std::optional<int> comboBoxIndex;
 	std::set<int> boxControlIds;
 	
-
+	
 
 	class Factory
 	{

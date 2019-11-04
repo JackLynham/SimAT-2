@@ -10,6 +10,7 @@
 #include "GDIPlusManager.h"
 #include "imgui/imgui.h"
 
+
 namespace dx = DirectX;
 
 GDIPlusManager gdipm;
@@ -34,6 +35,9 @@ App::App()
 
 void App::DoFrame()
 {
+
+	
+
 	drawables.reserve(tDrawables);
 
 	const auto dt = timer.Mark() * speed_factor;
@@ -74,7 +78,7 @@ void App::DoFrame()
 			{
 				wnd.DisableCursor();
 				wnd.mouse.EnableRaw();
-				std::generate_n(std::back_inserter(drawables), tDrawables, Factory{ wnd.Gfx() });
+				
 				
 			} 
 			else
@@ -85,6 +89,10 @@ void App::DoFrame()
 			break;
 		case VK_F1:
 			showDemoWindow = true;
+			break;
+
+		case VK_CAPITAL:
+			std::generate_n(std::back_inserter(drawables), tDrawables, Factory{ wnd.Gfx() });
 			break;
 		}
 
@@ -147,7 +155,7 @@ void App::SpawnSimulationWindow() noexcept
 	}
 	ImGui::End();
 }
-
+  
 void App::SpawnBoxWindowManagerWindow() noexcept
 {
 	if (ImGui::Begin("Boxes"))
