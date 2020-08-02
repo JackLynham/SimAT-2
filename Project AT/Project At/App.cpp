@@ -69,7 +69,7 @@ void App::DoFrame()
 
 		switch (e->GetCode())
 		{
-		case VK_ESCAPE:
+		case VK_SPACE:
 			if (wnd.CursorEnabled())
 			{
 				wnd.DisableCursor();
